@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FORGE — Premium Fitness Studio</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+  :root {
+    --black: #0a0a0a;
+    --red: #e63312;
+    --red-dark: #b52509;
+    --offwhite: #f5f2ec;
+    --gray: #888;
+    --light: #1a1a1a;
+  }
+  html { scroll-behavior: smooth; }
+  body { font-family: 'DM Sans', sans-serif; background: var(--black); color: var(--offwhite); overflow-x: hidden; }
+
+  /* NAV */
+  nav {
+    position: fixed; top: 0; width: 100%; z-index: 100;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 1.25rem 4rem;
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+    background: rgba(10,10,10,0.85); backdrop-filter: blur(12px);
+  }
+  .logo { font-family: 'Bebas Neue', sans-serif; font-size: 2rem; letter-spacing: 4px; color: var(--offwhite); }
+  .logo span { color: var(--red); }
+  .nav-links { display: flex; gap: 2.5rem; list-style: none; }
+  .nav-links a { text-decoration: none; color: var(--gray); font-size: 0.85rem; letter-spacing: 1.5px; text-transform: uppercase; transition: color 0.2s; }
+  .nav-links a:hover { color: var(--offwhite); }
+  .nav-cta { background: var(--red); color: #fff; text-decoration: none; padding: 0.6rem 1.6rem; font-size: 0.8rem; letter-spacing: 2px; text-transform: uppercase; font-weight: 500; transition: background 0.2s; }
+  .nav-cta:hover { background: var(--red-dark); }
+
+  /* HERO */
+  .hero {
+    min-height: 100vh; display: grid; place-items: center;
+    position: relative; overflow: hidden;
+    background: linear-gradient(135deg, #0a0a0a 0%, #1a0a08 50%, #0a0a0a 100%);
+  }
+  .hero-bg-text {
+    position: absolute; font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(12rem, 30vw, 28rem); line-height: 1;
+    color: rgba(255,255,255,0.03); letter-spacing: -0.02em;
+    user-select: none; pointer-events: none;
+    top: 50%; transform: translateY(-50%);
+  }
+  .hero-inner { position: relative; z-index: 2; text-align: center; padding: 2rem; }
+  .hero-tag {
+    display: inline-block; border: 1px solid var(--red); color: var(--red);
+    font-size: 0.7rem; letter-spacing: 4px; text-transform: uppercase;
+    padding: 0.4rem 1.2rem; margin-bottom: 2rem;
+    animation: fadeUp 0.8s ease forwards;
+  }
+  .hero h1 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(5rem, 14vw, 13rem); line-height: 0.9;
+    letter-spacing: 0.02em;
+    animation: fadeUp 0.8s 0.15s ease both;
+  }
+  .hero h1 em { color: var(--red); font-style: normal; }
+  .hero-sub {
+    max-width: 540px; margin: 2rem auto; font-size: 1.05rem;
+    color: var(--gray); line-height: 1.7; font-weight: 300;
+    animation: fadeUp 0.8s 0.3s ease both;
+  }
+  .hero-btns { display: flex; gap: 1rem; justify-content: center; margin-top: 2.5rem; animation: fadeUp 0.8s 0.45s ease both; }
+  .btn-primary { background: var(--red); color: #fff; padding: 1rem 2.5rem; text-decoration: none; font-size: 0.85rem; letter-spacing: 2px; text-transform: uppercase; font-weight: 500; transition: background 0.2s, transform 0.1s; }
+  .btn-primary:hover { background: var(--red-dark); transform: translateY(-2px); }
+  .btn-outline { border: 1px solid rgba(255,255,255,0.25); color: var(--offwhite); padding: 1rem 2.5rem; text-decoration: none; font-size: 0.85rem; letter-spacing: 2px; text-transform: uppercase; transition: border-color 0.2s, transform 0.1s; }
+  .btn-outline:hover { border-color: var(--offwhite); transform: translateY(-2px); }
+  .scroll-indicator {
+    position: absolute; bottom: 2.5rem; left: 50%; transform: translateX(-50%);
+    display: flex; flex-direction: column; align-items: center; gap: 0.5rem;
+    color: var(--gray); font-size: 0.7rem; letter-spacing: 3px; text-transform: uppercase;
+  }
+  .scroll-line { width: 1px; height: 60px; background: linear-gradient(to bottom, var(--gray), transparent); animation: scrollPulse 2s infinite; }
+
+  /* STATS */
+  .stats { display: grid; grid-template-columns: repeat(4, 1fr); border-top: 1px solid rgba(255,255,255,0.08); }
+  .stat { padding: 3rem; border-right: 1px solid rgba(255,255,255,0.08); text-align: center; }
+  .stat:last-child { border-right: none; }
+  .stat-num { font-family: 'Bebas Neue', sans-serif; font-size: 4rem; color: var(--red); line-height: 1; }
+  .stat-label { font-size: 0.75rem; letter-spacing: 2px; text-transform: uppercase; color: var(--gray); margin-top: 0.5rem; }
+
+  /* PROGRAMS */
+  .programs { padding: 8rem 4rem; }
+  .section-tag { font-size: 0.7rem; letter-spacing: 4px; text-transform: uppercase; color: var(--red); margin-bottom: 1rem; }
+  .section-title { font-family: 'Bebas Neue', sans-serif; font-size: clamp(3rem, 6vw, 5rem); line-height: 1; margin-bottom: 4rem; }
+  .cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; background: rgba(255,255,255,0.06); }
+  .card {
+    background: var(--black); padding: 2.5rem;
+    transition: background 0.3s;
+    position: relative; overflow: hidden;
+  }
+  .card::before {
+    content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
+    background: var(--red); transform: scaleX(0); transform-origin: left;
+    transition: transform 0.3s ease;
+  }
+  .card:hover { background: var(--light); }
+  .card:hover::before { transform: scaleX(1); }
+  .card-icon { font-size: 2.5rem; margin-bottom: 1.5rem; }
+  .card h3 { font-family: 'Bebas Neue', sans-serif; font-size: 1.8rem; letter-spacing: 1px; margin-bottom: 0.75rem; }
+  .card p { color: var(--gray); font-size: 0.9rem; line-height: 1.7; }
+  .card-link { display: inline-block; margin-top: 1.5rem; font-size: 0.75rem; letter-spacing: 2px; text-transform: uppercase; color: var(--red); text-decoration: none; }
+  .card-link::after { content: ' →'; }
+
+  /* SCHEDULE */
+  .schedule { padding: 8rem 4rem; background: var(--light); }
+  .schedule-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 1rem; margin-top: 4rem; }
+  .day { padding: 1.5rem; border: 1px solid rgba(255,255,255,0.08); }
+  .day-name { font-size: 0.7rem; letter-spacing: 3px; text-transform: uppercase; color: var(--gray); margin-bottom: 1rem; }
+  .class-item { background: rgba(255,255,255,0.04); padding: 0.75rem; margin-bottom: 0.5rem; border-left: 2px solid var(--red); }
+  .class-name { font-size: 0.8rem; font-weight: 500; }
+  .class-time { font-size: 0.7rem; color: var(--gray); margin-top: 0.2rem; }
+
+  /* PRICING */
+  .pricing { padding: 8rem 4rem; }
+  .pricing-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; margin-top: 4rem; }
+  .price-card { border: 1px solid rgba(255,255,255,0.1); padding: 3rem 2.5rem; transition: border-color 0.3s; }
+  .price-card:hover { border-color: var(--red); }
+  .price-card.featured { border-color: var(--red); background: rgba(230,51,18,0.05); }
+  .plan-tag { font-size: 0.65rem; letter-spacing: 3px; text-transform: uppercase; color: var(--gray); margin-bottom: 1rem; }
+  .plan-name { font-family: 'Bebas Neue', sans-serif; font-size: 2.5rem; margin-bottom: 1.5rem; }
+  .plan-price { font-family: 'Bebas Neue', sans-serif; font-size: 4rem; line-height: 1; }
+  .plan-price sup { font-size: 1.5rem; vertical-align: top; margin-top: 0.8rem; }
+  .plan-price span { font-size: 1rem; color: var(--gray); font-family: 'DM Sans', sans-serif; }
+  .plan-features { list-style: none; margin: 2rem 0; }
+  .plan-features li { padding: 0.75rem 0; border-bottom: 1px solid rgba(255,255,255,0.05); font-size: 0.9rem; color: var(--gray); display: flex; align-items: center; gap: 0.5rem; }
+  .plan-features li::before { content: '✓'; color: var(--red); font-weight: 700; }
+
+  /* TESTIMONIAL */
+  .testimonials { padding: 8rem 4rem; background: var(--light); overflow: hidden; }
+  .testimonial-track { display: flex; gap: 2rem; }
+  .testimonial {
+    flex-shrink: 0; width: 380px; padding: 2.5rem;
+    border: 1px solid rgba(255,255,255,0.08);
+    background: var(--black);
+  }
+  .stars { color: var(--red); font-size: 1.1rem; letter-spacing: 2px; margin-bottom: 1rem; }
+  .quote { font-size: 1rem; line-height: 1.7; color: var(--gray); font-style: italic; }
+  .author { margin-top: 1.5rem; display: flex; align-items: center; gap: 1rem; }
+  .avatar { width: 42px; height: 42px; border-radius: 50%; background: var(--red); display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 0.85rem; }
+  .author-name { font-weight: 500; font-size: 0.9rem; }
+  .author-role { font-size: 0.75rem; color: var(--gray); }
+
+  /* CTA SECTION */
+  .cta-section {
+    padding: 10rem 4rem; text-align: center;
+    background: radial-gradient(ellipse at center, rgba(230,51,18,0.15) 0%, transparent 70%);
+  }
+  .cta-section h2 { font-family: 'Bebas Neue', sans-serif; font-size: clamp(4rem, 10vw, 9rem); line-height: 0.9; margin-bottom: 2rem; }
+  .cta-section p { color: var(--gray); font-size: 1.1rem; max-width: 500px; margin: 0 auto 3rem; }
+
+  /* FOOTER */
+  footer {
+    padding: 3rem 4rem; border-top: 1px solid rgba(255,255,255,0.08);
+    display: flex; justify-content: space-between; align-items: center;
+  }
+  .footer-copy { font-size: 0.8rem; color: var(--gray); }
+  .footer-links { display: flex; gap: 2rem; }
+  .footer-links a { font-size: 0.8rem; color: var(--gray); text-decoration: none; letter-spacing: 1px; }
+  .footer-links a:hover { color: var(--offwhite); }
+
+  /* ANIMATIONS */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes scrollPulse {
+    0%, 100% { opacity: 0.3; } 50% { opacity: 1; }
+  }
+
+  /* RESPONSIVE */
+  @media (max-width: 900px) {
+    nav { padding: 1rem 1.5rem; }
+    .nav-links { display: none; }
+    .stats { grid-template-columns: repeat(2, 1fr); }
+    .programs { padding: 5rem 1.5rem; }
+    .cards { grid-template-columns: 1fr; }
+    .schedule { padding: 5rem 1.5rem; }
+    .schedule-grid { grid-template-columns: repeat(2, 1fr); }
+    .pricing { padding: 5rem 1.5rem; }
+    .pricing-grid { grid-template-columns: 1fr; }
+    .testimonials { padding: 5rem 1.5rem; }
+    .cta-section { padding: 6rem 1.5rem; }
+    footer { padding: 2rem 1.5rem; flex-direction: column; gap: 1rem; text-align: center; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="logo">F<span>O</span>RGE</div>
+  <ul class="nav-links">
+    <li><a href="#programs">Programs</a></li>
+    <li><a href="#schedule">Schedule</a></li>
+    <li><a href="#pricing">Pricing</a></li>
+    <li><a href="#about">About</a></li>
+  </ul>
+  <a href="#pricing" class="nav-cta">Join Now</a>
+</nav>
+
+<section class="hero">
+  <div class="hero-bg-text">FORGE</div>
+  <div class="hero-inner">
+    <div class="hero-tag">Elite Training Studio</div>
+    <h1>PUSH<br><em>YOUR</em><br>LIMITS</h1>
+    <p class="hero-sub">World-class training programs designed to transform your body, sharpen your mind, and unlock your peak performance.</p>
+    <div class="hero-btns">
+      <a href="#pricing" class="btn-primary">Start Free Trial</a>
+      <a href="#programs" class="btn-outline">View Programs</a>
+    </div>
+  </div>
+  <div class="scroll-indicator">
+    <div class="scroll-line"></div>
+    <span>Scroll</span>
+  </div>
+</section>
+
+<div class="stats">
+  <div class="stat"><div class="stat-num">12K+</div><div class="stat-label">Active Members</div></div>
+  <div class="stat"><div class="stat-num">48</div><div class="stat-label">Expert Trainers</div></div>
+  <div class="stat"><div class="stat-num">150+</div><div class="stat-label">Weekly Classes</div></div>
+  <div class="stat"><div class="stat-num">8</div><div class="stat-label">Years Strong</div></div>
+</div>
+
+<section class="programs" id="programs">
+  <div class="section-tag">What We Offer</div>
+  <h2 class="section-title">ELITE<br>PROGRAMS</h2>
+  <div class="cards">
+    <div class="card">
+      <div class="card-icon">🔥</div>
+      <h3>HIIT Forge</h3>
+      <p>High-intensity interval training that burns fat and builds endurance in 45 explosive minutes. No mercy, all results.</p>
+      <a href="#" class="card-link">Explore</a>
+    </div>
+    <div class="card">
+      <div class="card-icon">💪</div>
+      <h3>Iron Build</h3>
+      <p>Progressive strength training with expert coaches guiding every rep. Build the physique you've always wanted.</p>
+      <a href="#" class="card-link">Explore</a>
+    </div>
+    <div class="card">
+      <div class="card-icon">🥊</div>
+      <h3>Combat Ready</h3>
+      <p>Boxing and MMA fundamentals blended into the ultimate full-body workout. Fight-ready fitness for everyone.</p>
+      <a href="#" class="card-link">Explore</a>
+    </div>
+    <div class="card">
+      <div class="card-icon">🧘</div>
+      <h3>Recover & Flow</h3>
+      <p>Active recovery, mobility, and yoga sessions to keep you performing at 100%. Train hard. Recover harder.</p>
+      <a href="#" class="card-link">Explore</a>
+    </div>
+    <div class="card">
+      <div class="card-icon">🏃</div>
+      <h3>Endurance Lab</h3>
+      <p>Cardio science meets training precision. Build your aerobic base, improve VO2 max, and go the distance.</p>
+      <a href="#" class="card-link">Explore</a>
+    </div>
+    <div class="card">
+      <div class="card-icon">🎯</div>
+      <h3>1-on-1 Coaching</h3>
+      <p>Fully personalized sessions with your dedicated coach. Your goals, your pace, your transformation plan.</p>
+      <a href="#" class="card-link">Explore</a>
+    </div>
+  </div>
+</section>
+
+<section class="schedule" id="schedule">
+  <div class="section-tag">Weekly Schedule</div>
+  <h2 class="section-title">TRAIN<br>EVERY DAY</h2>
+  <div class="schedule-grid">
+    <div class="day">
+      <div class="day-name">Monday</div>
+      <div class="class-item"><div class="class-name">HIIT Forge</div><div class="class-time">6:00 AM · 45 min</div></div>
+      <div class="class-item"><div class="class-name">Iron Build</div><div class="class-time">12:00 PM · 60 min</div></div>
+      <div class="class-item"><div class="class-name">Combat Ready</div><div class="class-time">7:00 PM · 50 min</div></div>
+    </div>
+    <div class="day">
+      <div class="day-name">Tuesday</div>
+      <div class="class-item"><div class="class-name">Endurance Lab</div><div class="class-time">6:30 AM · 55 min</div></div>
+      <div class="class-item"><div class="class-name">Recover & Flow</div><div class="class-time">1:00 PM · 45 min</div></div>
+      <div class="class-item"><div class="class-name">HIIT Forge</div><div class="class-time">6:30 PM · 45 min</div></div>
+    </div>
+    <div class="day">
+      <div class="day-name">Wednesday</div>
+      <div class="class-item"><div class="class-name">Iron Build</div><div class="class-time">6:00 AM · 60 min</div></div>
+      <div class="class-item"><div class="class-name">Combat Ready</div><div class="class-time">12:30 PM · 50 min</div></div>
+      <div class="class-item"><div class="class-name">Endurance Lab</div><div class="class-time">7:00 PM · 55 min</div></div>
+    </div>
+    <div class="day">
+      <div class="day-name">Thursday</div>
+      <div class="class-item"><div class="class-name">HIIT Forge</div><div class="class-time">6:00 AM · 45 min</div></div>
+      <div class="class-item"><div class="class-name">Iron Build</div><div class="class-time">12:00 PM · 60 min</div></div>
+      <div class="class-item"><div class="class-name">Recover & Flow</div><div class="class-time">7:30 PM · 45 min</div></div>
+    </div>
+    <div class="day">
+      <div class="day-name">Friday</div>
+      <div class="class-item"><div class="class-name">Combat Ready</div><div class="class-time">6:30 AM · 50 min</div></div>
+      <div class="class-item"><div class="class-name">HIIT Forge</div><div class="class-time">12:00 PM · 45 min</div></div>
+      <div class="class-item"><div class="class-name">Iron Build</div><div class="class-time">6:00 PM · 60 min</div></div>
+    </div>
+  </div>
+</section>
+
+<section class="pricing" id="pricing">
+  <div class="section-tag">Membership Plans</div>
+  <h2 class="section-title">CHOOSE<br>YOUR PATH</h2>
+  <div class="pricing-grid">
+    <div class="price-card">
+      <div class="plan-tag">Starter</div>
+      <div class="plan-name">BASIC</div>
+      <div class="plan-price"><sup>$</sup>49<span>/mo</span></div>
+      <ul class="plan-features">
+        <li>8 classes per month</li>
+        <li>Access to gym floor</li>
+        <li>Locker room access</li>
+        <li>App & progress tracking</li>
+      </ul>
+      <a href="#" class="btn-outline" style="display:block; text-align:center; padding:0.9rem;">Get Started</a>
+    </div>
+    <div class="price-card featured">
+      <div class="plan-tag">Most Popular</div>
+      <div class="plan-name">PRO</div>
+      <div class="plan-price"><sup>$</sup>89<span>/mo</span></div>
+      <ul class="plan-features">
+        <li>Unlimited classes</li>
+        <li>Full gym access 24/7</li>
+        <li>Monthly body assessment</li>
+        <li>Nutrition guidance</li>
+        <li>2 guest passes/month</li>
+      </ul>
+      <a href="#" class="btn-primary" style="display:block; text-align:center; padding:0.9rem;">Get Started</a>
+    </div>
+    <div class="price-card">
+      <div class="plan-tag">Premium</div>
+      <div class="plan-name">ELITE</div>
+      <div class="plan-price"><sup>$</sup>149<span>/mo</span></div>
+      <ul class="plan-features">
+        <li>Everything in Pro</li>
+        <li>4 personal training sessions</li>
+        <li>Custom meal plan</li>
+        <li>Priority class booking</li>
+        <li>Unlimited guest passes</li>
+      </ul>
+      <a href="#" class="btn-outline" style="display:block; text-align:center; padding:0.9rem;">Get Started</a>
+    </div>
+  </div>
+</section>
+
+<section class="testimonials">
+  <div class="section-tag">Real Results</div>
+  <h2 class="section-title">MEMBERS<br>SPEAK</h2>
+  <div class="testimonial-track">
+    <div class="testimonial">
+      <div class="stars">★★★★★</div>
+      <p class="quote">"I've tried dozens of gyms. FORGE is the only place that pushed me past what I thought was possible. Lost 22kg in 6 months and I've never felt stronger."</p>
+      <div class="author"><div class="avatar">AK</div><div><div class="author-name">Ahmed Khan</div><div class="author-role">Member for 14 months</div></div></div>
+    </div>
+    <div class="testimonial">
+      <div class="stars">★★★★★</div>
+      <p class="quote">"The coaches here actually care. They know your name, your goals, your injuries. It doesn't feel like a gym — it feels like a family that holds you accountable."</p>
+      <div class="author"><div class="avatar">SR</div><div><div class="author-name">Sara Raza</div><div class="author-role">Member for 8 months</div></div></div>
+    </div>
+    <div class="testimonial">
+      <div class="stars">★★★★★</div>
+      <p class="quote">"Combat Ready classes changed everything for me. Best full-body workout I've ever had. I come in 4 times a week and I'm addicted. Worth every penny."</p>
+      <div class="author"><div class="avatar">MF</div><div><div class="author-name">Mikael Faris</div><div class="author-role">Member for 2 years</div></div></div>
+    </div>
+    <div class="testimonial">
+      <div class="stars">★★★★★</div>
+      <p class="quote">"As a busy mom of three I thought getting fit was impossible. FORGE's flexible schedule and supportive coaches made it happen. I'm the strongest I've ever been."</p>
+      <div class="author"><div class="avatar">NB</div><div><div class="author-name">Nadia Basit</div><div class="author-role">Member for 10 months</div></div></div>
+    </div>
+  </div>
+</section>
+
+<section class="cta-section">
+  <h2>START YOUR<br><em style="color:var(--red);font-style:normal;">JOURNEY</em><br>TODAY</h2>
+  <p>Your first 7 days are completely free. No contracts. No excuses. Just results.</p>
+  <a href="#pricing" class="btn-primary" style="font-size:0.9rem; padding:1.2rem 3.5rem;">Claim Free Trial</a>
+</section>
+
+<footer>
+  <div class="logo">F<span>O</span>RGE</div>
+  <div class="footer-copy">© 2025 Forge Fitness Studio. All rights reserved.</div>
+  <div class="footer-links">
+    <a href="#">Instagram</a>
+    <a href="#">Privacy</a>
+    <a href="#">Contact</a>
+  </div>
+</footer>
+
+</body>
+</html>
