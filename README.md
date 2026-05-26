@@ -1,2 +1,2 @@
 # Fitness-landing-page
-Fitness-landing-page built just with HTML and CSS
+Fitness-landing-page built  with clean HTML and CSS
